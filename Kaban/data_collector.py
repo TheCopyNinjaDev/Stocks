@@ -16,12 +16,11 @@ price = []
 
 
 async def get_minute_candles(ticker: str, period):
-    # show 1 minute candles for AAPL in 1 year period of time
     async with TinkoffInvestmentsRESTClient(
         token=TOKEN, environment=Environment.SANDBOX
     ) as client:
         historical_data = HistoricalData(client)
-        instruments = await client.market.instruments.search("AAPL")
+        instruments = await client.market.instruments.search(ticker)
         stock_figi = instruments[0].figi
         print(stock_figi)
         async for candle in historical_data.iter_candles(

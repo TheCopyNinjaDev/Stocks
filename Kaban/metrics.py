@@ -4,32 +4,40 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
-def calculate_income(series:pd.Series):
+def __calculate_income(series: pd.Series):
+    # Define entry point
     prices = series.iloc[:, 1]
     entry_point = series[prices == prices.min()]
+
+    # Find region where we can sell stock
     sell_region = series[series.index > entry_point.index[0]]
+
+    # Define exit point
     prices = sell_region.iloc[:, 1]
     exit_point = sell_region[prices == prices.max()]
+
+    # Calculate income
     income = round(exit_point.values[0][1] - entry_point.values[0][1], 2)
     return income
 
 
-def pmm_info(predicted: pd.Series, real: pd.Series):
+def PMM(predicted: pd.Series, real: pd.Series) -> dict:
     """
-        Calculates the metric of prediction and
-        real data in order to investigate prediction
-        in money profit purpose
-        All arguments must be of equal length.
-        :param predicted: predicted data
-        :param real: real data
-        :return: data investigation result
-        """
+    Profit-Money-Metric
+    Calculates the metric of prediction and
+    real data in order to investigate prediction
+    in money profit purpose
+    All arguments must be of equal length.
+    :param predicted: predicted data
+    :param real: real data
+    :return: data investigation result
+    """
 
     # Supposed income calculation
-    supposed_income = calculate_income(predicted)
+    supposed_income = __calculate_income(predicted)
 
     # Real income calculation
-    real_income = calculate_income(real)
+    real_income = __calculate_income(real)
 
     # Difference between incomes calculation
     diff = real_income - supposed_income

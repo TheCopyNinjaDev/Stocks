@@ -42,6 +42,8 @@ def pmm_info(predicted: pd.Series, real: pd.Series):
     else:
         trend = 'exact'
 
+    # TODO calculate quantity of predicted patterns
+
     return {'supposed income': supposed_income,
             'real_income': real_income,
             'diff': abs(diff),
